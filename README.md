@@ -1,38 +1,61 @@
-Role Name
+Vector
 =========
 
-A brief description of the role goes here.
-
-Requirements
-------------
-
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+This role can install and configure Vector for Clickhouse on Centos 8
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+| vars | Description |
+|------|------------|
+| vector_version | Vector version to install |
+| vector_clickhouse_ip | Addres of Clickhouse instance |
+| clickhouse_db_name | Clickhouse DB where to store logs |
+| clickhouse_table_name | Clickhouse table name to write logs |
+| vector_url | URL for Vector download | 
+| vector_config_dir | Vector config file location |
+| vector_config | Vector config file |
 
-Dependencies
-------------
+`vector_config`
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+```text
+  sources:
+    demo_logs:
+      type: demo_logs
+      format: syslog
+  sinks:
+    to_clickhouse:
+      type: clickhouse
+      inputs:
+        - demo_logs
+      database: "{{ clickhouse_db_name }}"
+      endpoint: "http://{{ vector_clickhouse_ip }}:8123"
+      table: "{{ clickhouse_table_name }}"
+      compression: gzip
+      healthcheck: true
+      skip_unknown_fields: true
+```
+
+You can replace `Vector` config with your own
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
+```yml
+    - name: Install Vector
+      hosts: servers
       roles:
-         - { role: username.rolename, x: 42 }
+        - vector
+```
 
 License
 -------
 
-BSD
+MIT
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Nikita Kiselyov
+
+<nkiselyov94@gmail.com>

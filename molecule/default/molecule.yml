@@ -1,0 +1,19 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+platforms:
+  - name: centos8
+    image: quay.io/centos/centos:stream8
+    pre_build_image: true
+  - name: centos7
+    image: quay.io/centos/centos:centos7
+    pre_build_image: true
+  - name: ubuntu
+    image: quay.io/libpod/ubuntu:latest
+    pre_build_image: true
+provisioner:
+  name: ansible
+verifier:
+  name: ansible

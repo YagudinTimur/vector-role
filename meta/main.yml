@@ -2,6 +2,7 @@ galaxy_info:
   author: Yagudin Timur
   description: role for install and configure Vector for CLickhouse
   role_name: Vector role
+  namespace: vector
   # If the issue tracker for your role is not on github, uncomment the
   # next line and provide a value
   # issue_tracker_url: http://example.com/issue/tracker
